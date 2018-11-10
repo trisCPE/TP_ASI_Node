@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <link href="./lib/bootstrapv4/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./index.css" rel="stylesheet">
+    <title>Admin</title>
+    <!-- Inclusion de socket.io -->
+  </head>
+
+<body>
+    <div class="row">
+      <div class="col-xs-12 text_align_center">
+        <h1>Admin</h1>
+        <br />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 text_align_center">
+        <h5>Plese enter the presentation's id :</h5>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <input id="presId" type="text" class="form-control" placeholder="Presentation id">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 text_align_center">
+        <br />
+        <h5>Please select the action to perform :</h5>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <button id="start" type="button" class="btn btn-primary btn-block" >START</button>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <button id="pause" type="button" class="btn btn-primary btn-block" >PAUSE</button>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <button id="end" type="button" class="btn btn-primary btn-block" >END</button>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <button id="begin" type="button" class="btn btn-primary btn-block" >BEGIN</button>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <button id="prev" type="button" class="btn btn-primary btn-block">PREV</button>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <button id="next" type="button" class="btn btn-primary btn-block" >NEXT</button>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>  
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script> 
+    <script>
+        var socket = io.connect(); //Init the connection to the websocket server in the 
+
+            socket.emit('data_com',socket.id);
+        
+            $('#start').click(function () {
+             if ($("#presId").val().length > 0) {
+            socket.emit("slidEvent",JSON.parse(createJson("START")));
+             alert("Request START send to the server !");
+              } else {
+             alert("Please enter the presentation's id !");
+        }
+      });
+
+            $('#end').click(function () {
+                socket.emit('slidEvent', {CMD: 'END'});
+            });
+            $('#next').click(function () {
+                socket.emit('slidEvent', {CMD: 'NEXT'});
+            });
+            $('#prec').click(function () {
+                socket.emit('slidEvent', {CMD: 'PREV'});
+            });
+
+        function createJson(action) {  //generate JSON files depending on the action of user
+        let jsonString = "{";
+        if (action == "START") {
+          jsonString += '"CMD":"' + action + '",';
+          jsonString += '"PRES_ID":"' + $("#presId").val() + '"';
+        } else {
+          jsonString += '"CMD":"' + action + '"';
+        }
+        jsonString += "}";
+        return jsonString;
+      };
+</script>
+
+
+

@@ -1,0 +1,21 @@
+.row {
+    margin-right: 10px;
+    margin-left: 0px;
+    padding: 0px;
+    text-align: center;
+}
+
+.row h1 {
+        text-align: center;
+        margin: auto;
+        width: 100%;
+ }
+
+body {
+    background-color: #bdc3c7;
+    font-family: Calibri, sans-serif;
+}
+
+button {
+	background-color: #ff0000;
+}
